@@ -1,0 +1,27 @@
+$primary: #bf5e49 !default;
+$secondary: #157351 !default;
+
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+
+body {
+  background-color: #e5e8e8 !important;
+}
+
+nav {
+  border-bottom: 5px solid $primary;
+}
+
+#app {
+  height: 100vh !important;
+}
+
+.card,
+.btn,
+.form-control {
+  border-radius: 2px !important;
+}
+
+.card {
+  border: none;
+  box-shadow: 5px 5px 12px 0px rgba(0, 0, 0, 0.08);
+}
