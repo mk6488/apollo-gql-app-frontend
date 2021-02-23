@@ -11,8 +11,8 @@ export default [{
 		component: () => import('../views/About.vue')
 	},
 	{
-		path: "/session/:id",
-		name: "Session",
+		path: '/session/:id',
+		name: 'Session',
 		component: () => import('../views/Session.vue')
 	}
 ]

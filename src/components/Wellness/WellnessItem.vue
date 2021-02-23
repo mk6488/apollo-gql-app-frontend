@@ -1,12 +1,15 @@
 <template>
   <tr>
     <th scope="row">{{ sno + 1 }}</th>
-    <td>{{ wellness.firstName }} {{ wellness.lastName }}</td>
-    <td>{{ wellness.squad }}</td>
-    <td>{{ wellness.weight }}</td>
-    <td>{{ wellness.current }}</td>
-    <td>{{ wellness.doe }}</td>
-    <td>{{ wellness.dob | birthDateFilter }}</td>
+    <td>{{ wellness.date | dateFilter }}</td>
+    <td>{{ wellness.weekNumber }}</td>
+    <td>{{ wellness.athlete.firstName }}</td>
+    <td>{{ wellness.sleep }}</td>
+    <td>{{ wellness.stress }}</td>
+    <td>{{ wellness.fatigue }}</td>
+    <td>{{ wellness.soreness }}</td>
+    <td>{{ wellness.nutrition }}</td>
+    <td>{{ wellness.average }}</td>
     <td>
       <button
         class="btn btn-success mr-2 btn-sm"

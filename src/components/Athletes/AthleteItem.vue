@@ -1,16 +1,22 @@
 <template>
   <tr>
     <th scope="row">{{ sno + 1 }}</th>
-    <td>{{ athlete.firstName }} {{ athlete.lastName }}</td>
-    <td>{{ athlete.squad }}</td>
-    <td>{{ athlete.weight }}</td>
-    <td>{{ athlete.current }}</td>
-    <td>{{ athlete.doe }}</td>
-    <td>{{ athlete.dob | birthDateFilter }}</td>
+    <td :class="{ 'text-danger': !athlete.current }">
+      {{ athlete.firstName }} {{ athlete.lastName }}
+    </td>
+    <td :class="{ 'text-danger': !athlete.current }">
+      {{ currentAge(athlete.dob) }}yo
+    </td>
+    <td :class="{ 'text-danger': !athlete.current }">{{ athlete.squad }}</td>
+    <td :class="{ 'text-danger': !athlete.current }">{{ athlete.weight }}</td>
+    <td :class="{ 'text-danger': !athlete.current }">{{ athlete.doe }}</td>
+    <td :class="{ 'text-danger': !athlete.current }">
+      {{ athlete.dob | birthDateFilter }}
+    </td>
     <td>
       <button
         class="btn btn-success mr-2 btn-sm"
-        @click="$router.push(`/athlete/${athlete.id}`)"
+        @click="$router.push(`/dashboard/athlete/${athlete.id}`)"
       >
         View
       </button>
@@ -28,6 +34,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import { DELETE_ATHLETE } from "../../gql";
 import { toast } from "../../helpers";
 import DateTimeMixin from "../../mixins/DateFilter";
@@ -44,6 +51,9 @@ export default {
       required: true,
     },
   },
+  data: () => ({
+    age: "",
+  }),
   methods: {
     async deleteAthlete() {
       let { data } = await this.$apollo.mutate({
@@ -52,6 +62,10 @@ export default {
       });
       toast("success", data.deleteAthlete.message);
       this.$emit("athlete-deleted");
+    },
+
+    currentAge(val) {
+      return moment(new Date()).diff(val, "years");
     },
   },
 };

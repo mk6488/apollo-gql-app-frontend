@@ -1,13 +1,8 @@
 <template>
   <div class="home">
-    <h2 class="text-primary font-weight-bold mb-3">Sessions</h2>
+    <h2 class="text-primary font-weight-bold mt-3 mb-3">Sessions</h2>
     <ApolloQuery
-      :query="
-        (gql) =>
-          gql`
-            ${allSessions}
-          `
-      "
+      :query="allSessions"
       :variables="{ limit: limit, page: currentPage }"
     >
       <template v-slot="{ result: { data, error, loading } }">
@@ -33,8 +28,9 @@
 </template>
 
 <script>
-import Scroller from "../mixins/Scroller";
 import Sessions from "../components/Sessions/Sessions";
+import { GET_SESSIONS_WITH_PAGINATION } from "../gql";
+import Scroller from "../mixins/Scroller";
 
 export default {
   mixins: [Scroller],
@@ -43,34 +39,7 @@ export default {
   data: () => ({
     currentPage: 1,
     limit: 12,
-    allSessions: `
-    query GET_SESSIONS_WITH_PAGINATION($page: Int!, $limit: Int!) {
-      getSessionsWithPagination(page: $page, limit: $limit) {
-        sessions {
-          id
-          date
-          weekNumber
-          type
-          info
-          image
-          author {
-            group
-          }
-        }
-        paginator {
-          hasNextPage
-          hasPrevPage
-          next
-          prev
-          slNo
-          count
-          pageCount
-          perPage
-          currentPage
-        }
-      }
-    }
-    `,
+    allSessions: GET_SESSIONS_WITH_PAGINATION,
   }),
 };
 </script>

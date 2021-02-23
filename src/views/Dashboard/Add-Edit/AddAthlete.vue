@@ -3,12 +3,41 @@
     <div class="col-12">
       <div class="card">
         <div class="card-body">
-          <h3 class="card-title text-primary">
-            {{ editMode ? "Edit Athlete" : "Add Athlete" }}
-          </h3>
+          <div class="d-flex">
+            <h3 class="card-title text-primary">
+              {{ editMode ? "Edit Athlete" : "Add Athlete" }}
+            </h3>
+          </div>
+
           <hr />
-          <div class="row just">
+          <div class="row">
             <div class="col-md-6 col-sm-12">
+              <!-- Active/Inactive Toggle Button -->
+              <div
+                v-if="editMode"
+                class="custom-control custom-switch d-flex align-items-end flex-column"
+              >
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="customSwitch1"
+                  v-model="newAthlete.current"
+                />
+                <label
+                  v-if="newAthlete.current === true"
+                  class="custom-control-label text-primary font-weight-bold"
+                  for="customSwitch1"
+                >
+                  Active
+                </label>
+                <label
+                  v-else
+                  class="custom-control-label text-secondary font-weight-bold"
+                  for="customSwitch1"
+                >
+                  Inactive
+                </label>
+              </div>
               <!-- First Name -->
               <div class="form-group">
                 <label for="firstName" class="text-primary font-weight-bold">
@@ -111,15 +140,7 @@
                 </button>
               </div>
             </div>
-            <div class="col-md-6 col-sm-12">
-              <p>First Name: {{ newAthlete.firstName }}</p>
-              <p>Last Name: {{ newAthlete.lastName }}</p>
-              <p>Squad: {{ newAthlete.squad }}</p>
-              <p>Weight: {{ newAthlete.weight }}</p>
-              <p>Current: {{ newAthlete.current }}</p>
-              <p>D of E: {{ newAthlete.doe }}</p>
-              <p>D.O.B: {{ newAthlete.dob }}</p>
-            </div>
+            <div class="col-md-6 col-sm-12"></div>
           </div>
         </div>
       </div>

@@ -3,12 +3,15 @@
     <thead v-if="wellness.length > 0">
       <tr>
         <th scope="col">#Sno</th>
-        <th scope="col">Name</th>
-        <th scope="col">Squad</th>
-        <th scope="col">Weight</th>
-        <th scope="col">Current</th>
-        <th scope="col">D of E</th>
-        <th scope="col">D.O.B</th>
+        <th scope="col">Date</th>
+        <th scope="col">Week #</th>
+        <th scope="col">Athlete</th>
+        <th scope="col">S</th>
+        <th scope="col">S</th>
+        <th scope="col">F</th>
+        <th scope="col">S</th>
+        <th scope="col">N</th>
+        <th scope="col">Average</th>
         <th scope="col">Actions</th>
       </tr>
     </thead>

@@ -5,12 +5,13 @@ query GET_SESSIONS_WITH_PAGINATION($page: Int!, $limit: Int!) {
 	getSessionsWithPagination(page: $page, limit: $limit) {
 		sessions {
 			id
+			date
+			weekNumber
 			type
 			info
+			image
 			author {
-				username
-				firstName
-				lastName
+				group
 			}
 		}
 		paginator {

@@ -23,6 +23,11 @@ export default {
 			component: () => import('../views/Dashboard/MyAthletes.vue')
 		},
 		{
+			path: 'athlete/:id',
+			name: 'Athlete',
+			component: () => import('../views/Dashboard/Athlete.vue')
+		},
+		{
 			path: 'add-athlete',
 			name: 'AddAthlete',
 			component: () => import('../views/Dashboard/Add-Edit/AddAthlete.vue')
@@ -43,9 +48,19 @@ export default {
 			component: () => import('../views/Dashboard/MyLoads.vue')
 		},
 		{
+			path: 'add-load',
+			name: 'AddLoad',
+			component: () => import('../views/Dashboard/Add-Edit/AddLoad.vue')
+		},
+		{
 			path: 'my-comments',
 			name: 'MyComments',
 			component: () => import('../views/Dashboard/MyComments.vue')
+		},
+		{
+			path: 'add-comment',
+			name: 'AddComment',
+			component: () => import('../views/Dashboard/Add-Edit/AddComment.vue')
 		},
 		{
 			path: 'my-tests',
@@ -53,9 +68,19 @@ export default {
 			component: () => import('../views/Dashboard/MyTests.vue')
 		},
 		{
+			path: 'add-test',
+			name: 'AddTest',
+			component: () => import('../views/Dashboard/Add-Edit/AddTest.vue')
+		},
+		{
+			path: 'my-charts',
+			name: 'MyCharts',
+			component: () => import('../views/Dashboard/MyCharts.vue')
+		},
+		{
 			path: 'my-profile',
 			name: 'MyProfile',
-			component: () => import('../views/Dashboard/Profile.vue')
+			component: () => import('../views/Dashboard/MyProfile.vue')
 		},
 		{
 			path: 'logout',

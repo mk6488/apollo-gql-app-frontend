@@ -1,5 +1,23 @@
 import gql from 'graphql-tag'
 
+export const ALL_ATHLETES = gql `
+query ALL_ATHLETES {
+  allAthletes {
+    id
+    firstName
+  }
+}
+`
+
+export const ALL_ACTIVE_ATHLETES = gql `
+query ALL_ACTIVE_ATHLETES {
+  allActiveAthletes {
+    id
+    firstName
+  }
+}
+`
+
 export const GET_ATHLETES_WITH_PAGINATION = gql `
 query GET_ATHLETES_WITH_PAGINATION($page: Int!, $limit: Int!) {
 	getAthletesWithPagination(page: $page, limit: $limit) {

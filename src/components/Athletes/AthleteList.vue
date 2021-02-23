@@ -4,9 +4,9 @@
       <tr>
         <th scope="col">#Sno</th>
         <th scope="col">Name</th>
+        <th scope="col">Age</th>
         <th scope="col">Squad</th>
         <th scope="col">Weight</th>
-        <th scope="col">Current</th>
         <th scope="col">D of E</th>
         <th scope="col">D.O.B</th>
         <th scope="col">Actions</th>

@@ -6,6 +6,10 @@ export default {
 			return moment(val).format("ddd Do MMM YY, H:mm");
 		},
 
+		dateFilter(val) {
+			return moment(val).format("Do MMM YY")
+		},
+
 		birthDateFilter(val) {
 			return moment(val).format("DD/MM/YYYY");
 		},

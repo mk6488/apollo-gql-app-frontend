@@ -8,6 +8,7 @@
           </h3>
           <hr />
           <div class="row">
+            <!-- LEFT-HAND SIDE -->
             <div class="col-md-7 col-sm-12">
               <div class="form-group">
                 <label for="type" class="text-primary font-weight-bold">
@@ -29,8 +30,8 @@
                   Date and Time
                 </label>
                 <input
+                  @change="updateWeekNumber"
                   type="datetime-local"
-                  step="900"
                   class="form-control"
                   placeholder="Type"
                   id="date"
@@ -46,6 +47,7 @@
               <div class="form-group">
                 <input type="hidden" v-model="newSession.image" />
               </div>
+              <!-- Buttons -->
               <div class="form-group">
                 <button
                   v-if="!editMode"
@@ -65,6 +67,7 @@
                 </button>
               </div>
             </div>
+            <!-- RIGHT-HAND SIDE -->
             <div class="col-md-5 col-sm-12">
               <div class="form-group">
                 <input
@@ -118,6 +121,10 @@ export default {
     isLoading: false,
   }),
   methods: {
+    updateWeekNumber() {
+      this.newSession.weekNumber = weekNumber(this.newSession.date);
+    },
+
     async uploadImage() {
       let { data } = await this.$apollo.mutate({
         mutation: UPLOAD_FILE,
@@ -129,7 +136,6 @@ export default {
 
     async addNewSession() {
       this.isLoading = true;
-      this.newSession.weekNumber = weekNumber(this.newSession.date);
       await this.$apollo.mutate({
         mutation: CREATE_SESSION,
         variables: this.newSession,
@@ -151,7 +157,6 @@ export default {
 
     async updateSession() {
       this.isLoading = true;
-      this.newSession.weekNumber = weekNumber(this.newSession.date);
       this.updatedSession = this.newSession;
       await this.$apollo.mutate({
         mutation: UPDATE_SESSION,

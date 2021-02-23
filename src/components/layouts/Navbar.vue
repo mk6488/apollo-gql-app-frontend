@@ -1,6 +1,6 @@
 <template>
   <div class="app-navbar">
-    <b-navbar toggleable="lg" type="dark" variant="dark">
+    <b-navbar toggleable="lg" type="dark" variant="dark" fixed="top">
       <b-navbar-brand href="/"
         >Athlete<span class="text-primary"> Book</span></b-navbar-brand
       >
@@ -63,6 +63,11 @@
           <li class="nav-item" v-if="isAuth">
             <routerLink class="nav-link text-primary" to="/dashboard/my-tests"
               >Tests</routerLink
+            >
+          </li>
+          <li class="nav-item" v-if="isAuth">
+            <routerLink class="nav-link text-primary" to="/dashboard/my-charts"
+              >Charts</routerLink
             >
           </li>
           <li class="nav-item" v-if="isAuth">
