@@ -1,15 +1,27 @@
 <template>
-  <div class="card session-card">
+  <div class="card session-card position-relative">
+    <div
+      class="cancelled position-absolute h-100 w-100 d-flex"
+      v-if="session.cancelled"
+    >
+      <img
+        src="../../assets/images/cancelled.png"
+        alt="Cancelled"
+        class="img-fluid justify-content-center my-auto"
+      />
+    </div>
+
     <img :src="session.image" class="card-img-top" alt="session.type" />
     <div class="card-body">
-      <h4 class="text-primary">{{ session.type }}</h4>
-      <p class="card-text">
+      <h4 class="card-title text-primary">{{ session.type }}</h4>
+      <small>
         {{ session.date | dateTimeFilter }}
-      </p>
-      <p class="card-text text-primary">
+      </small>
+      <p class="text-primary">
         {{ session.author.group }}
       </p>
       <button
+        :disabled="session.cancelled"
         class="btn btn-primary mr-2 btn-sm"
         @click="$router.push(`/session/${session.id}`)"
       >
@@ -31,3 +43,4 @@ export default {
   },
 };
 </script>
+

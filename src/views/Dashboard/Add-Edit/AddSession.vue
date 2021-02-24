@@ -9,7 +9,7 @@
           <hr />
           <div class="row">
             <!-- LEFT-HAND SIDE -->
-            <div class="col-md-7 col-sm-12">
+            <div class="col-md-10 col-sm-12 mx-auto">
               <div class="form-group">
                 <label for="type" class="text-primary font-weight-bold">
                   Type of Session
@@ -48,41 +48,30 @@
                 <input type="hidden" v-model="newSession.image" />
               </div>
               <!-- Buttons -->
-              <div class="form-group">
+              <div v-if="!editMode" class="form-group">
                 <button
-                  v-if="!editMode"
                   :disabled="isLoading"
-                  class="btn btn-primary"
+                  class="btn btn-primary float-left"
                   @click="addNewSession"
                 >
                   Add Session
                 </button>
                 <button
-                  v-else
                   :disabled="isLoading"
-                  class="btn btn-primary"
+                  class="btn btn-primary float-right"
+                  @click="closePage"
+                >
+                  Finished
+                </button>
+              </div>
+              <div v-else class="form-group">
+                <button
+                  :disabled="isLoading"
+                  class="btn btn-primary float-left"
                   @click="updateSession"
                 >
                   Edit Session
                 </button>
-              </div>
-            </div>
-            <!-- RIGHT-HAND SIDE -->
-            <div class="col-md-5 col-sm-12">
-              <div class="form-group">
-                <input
-                  type="file"
-                  class="form-control"
-                  ref="imageUploader"
-                  @change="uploadImage"
-                />
-              </div>
-              <div class="form-group" v-if="newSession.image">
-                <img
-                  class="img-thumbnail img-fluid mx-auto d-block"
-                  :src="newSession.image"
-                  alt=""
-                />
               </div>
             </div>
           </div>
@@ -98,7 +87,6 @@ import {
   CREATE_SESSION,
   GET_SESSION_BY_ID,
   UPDATE_SESSION,
-  UPLOAD_FILE,
 } from "../../../gql";
 import { toast, weekNumber } from "../../../helpers";
 
@@ -116,6 +104,7 @@ export default {
       type: "",
       info: "No info yet.",
       image: "",
+      cancelled: false,
     },
     updatedSession: {},
     isLoading: false,
@@ -125,24 +114,28 @@ export default {
       this.newSession.weekNumber = weekNumber(this.newSession.date);
     },
 
-    async uploadImage() {
-      let { data } = await this.$apollo.mutate({
-        mutation: UPLOAD_FILE,
-        variables: { file: this.$refs["imageUploader"].files[0] },
-      });
-      this.newSession.image = data.imageUploader;
-      this.$refs["imageUploader"] = null;
+    // async uploadImage() {
+    //   let { data } = await this.$apollo.mutate({
+    //     mutation: UPLOAD_FILE,
+    //     variables: { file: this.$refs["imageUploader"].files[0] },
+    //   });
+    //   this.newSession.image = data.imageUploader;
+    //   this.$refs["imageUploader"] = null;
+    // },
+
+    closePage() {
+      this.$router.push("/dashboard/my-sessions");
     },
 
     async addNewSession() {
       this.isLoading = true;
+      this.updateImage();
       await this.$apollo.mutate({
         mutation: CREATE_SESSION,
         variables: this.newSession,
       });
       this.isLoading = false;
       toast("success", "Session created");
-      this.$router.push("/dashboard/my-sessions");
     },
 
     async getSession() {
@@ -157,6 +150,7 @@ export default {
 
     async updateSession() {
       this.isLoading = true;
+      this.updateImage();
       this.updatedSession = this.newSession;
       await this.$apollo.mutate({
         mutation: UPDATE_SESSION,
@@ -168,6 +162,19 @@ export default {
       this.isLoading = false;
       toast("success", "Session updated");
       this.$router.push("/dashboard/my-sessions");
+    },
+
+    updateImage() {
+      if (this.newSession.type === "Water") {
+        this.newSession.image =
+          "http://localhost:4000/water-session-1613394334232.png";
+      } else if (this.newSession.type === "Erg") {
+        this.newSession.image =
+          "http://localhost:4000/erg-session-1613394357781.png";
+      } else if (this.newSession.type === "S&C") {
+        this.newSession.image =
+          "http://localhost:4000/s-c-session-1613394382075.png";
+      }
     },
   },
   created() {

@@ -10,6 +10,7 @@ query GET_SESSIONS_WITH_PAGINATION($page: Int!, $limit: Int!) {
 			type
 			info
 			image
+			cancelled
 			author {
 				group
 			}
@@ -39,6 +40,7 @@ query GET_MY_SESSIONS_WITH_PAGINATION($page: Int!, $limit: Int!) {
 			type
 			info
 			image
+			cancelled
 		}
 		paginator {
 			hasNextPage
@@ -64,6 +66,7 @@ query GET_SESSION_BY_ID($id: ID!) {
 		type
 		info
 		image
+		cancelled
 		createdAt
 		updatedAt
 		author {
@@ -80,14 +83,16 @@ mutation CREATE_SESSION(
 	$type: String!
 	$info: String!
 	$image: String
+	$cancelled: Boolean!
 ) {
 	createSession(
-		newSession: { date: $date, weekNumber: $weekNumber, type: $type, info: $info, image: $image }
+		newSession: { date: $date, weekNumber: $weekNumber, type: $type, info: $info, image: $image, cancelled: $cancelled }
 	) {
 		id
 		type
 		info
 		image
+		cancelled
 	}
 }
 `
@@ -100,6 +105,7 @@ mutation UPDATE_SESSION(
 	$type: String!
 	$info: String!
 	$image: String
+	$cancelled: Boolean!
 ) {
 	updateSession(
 		id: $id
@@ -109,7 +115,22 @@ mutation UPDATE_SESSION(
 			type: $type
 			info: $info
 			image: $image
+			cancelled: $cancelled
 		}
+	) {
+		id
+	}
+}
+`
+
+export const TOGGLE_CANCELLED = gql `
+mutation TOGGLE_CANCELLED(
+	$id: ID!
+	$cancelled: Boolean!
+) {
+	toggleCancelled(
+		id: $id
+		cancelled: $cancelled
 	) {
 		id
 	}

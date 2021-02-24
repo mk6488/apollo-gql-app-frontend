@@ -7,13 +7,14 @@
         <th scope="col">Type</th>
         <th scope="col">Date</th>
         <th scope="col">Actions</th>
+        <th scope="col">Cancel</th>
       </tr>
     </thead>
     <p v-else>You have not created any sessions yet.</p>
     <tbody>
       <SessionItem
         v-for="(session, index) in sessions"
-        @session-deleted="$emit('session-deleted')"
+        @refresh="$emit('refresh')"
         :key="session.id"
         :session="session"
         :sno="index"

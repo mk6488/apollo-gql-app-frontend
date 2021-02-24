@@ -1,5 +1,5 @@
 <template>
-  <div class="session-page">
+  <div class="session-page mt-4">
     <button class="btn btn-primary mb-3" @click="$router.go(-1)">
       Go Back
     </button>

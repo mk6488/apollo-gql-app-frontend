@@ -24,7 +24,7 @@
                 <div v-else-if="data">
                   <SessionList
                     :sessions="data.getMySessionsWithPagination.sessions"
-                    @session-deleted="query.refetch()"
+                    @refresh="query.refetch()"
                   />
                   <bPagination
                     v-if="

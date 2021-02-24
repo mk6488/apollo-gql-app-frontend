@@ -9,8 +9,12 @@
         :alt="session.type"
       />
     </td>
-    <td>{{ session.type }}</td>
-    <td>{{ session.date | dateTimeFilter }}</td>
+    <td :class="session.cancelled ? 'text-danger' : ''">
+      {{ session.type }}
+    </td>
+    <td :class="session.cancelled ? 'text-danger' : ''">
+      {{ session.date | dateTimeFilter }}
+    </td>
     <td>
       <button
         class="btn btn-success mr-2 btn-sm"
@@ -19,6 +23,7 @@
         View
       </button>
       <button
+        :disabled="session.cancelled"
         class="btn btn-info mr-2 btn-sm"
         @click="$router.push(`/dashboard/add-session?edit=${session.id}`)"
       >
@@ -28,11 +33,34 @@
         Delete
       </button>
     </td>
+    <td>
+      <div
+        class="custom-control custom-switch d-flex align-items-start flex-column"
+      >
+        <input
+          @change="updateSession"
+          type="checkbox"
+          class="custom-control-input"
+          :id="session.id"
+          v-model="session.cancelled"
+        />
+        <label
+          v-if="session.cancelled"
+          class="custom-control-label text-danger font-weight-bold"
+          :for="session.id"
+        ></label>
+        <label
+          v-else
+          class="custom-control-label text-secondary font-weight-bold"
+          :for="session.id"
+        ></label>
+      </div>
+    </td>
   </tr>
 </template>
 
 <script>
-import { DELETE_SESSION } from "../../gql";
+import { DELETE_SESSION, TOGGLE_CANCELLED } from "../../gql";
 import { toast } from "../../helpers";
 import DateTimeMixin from "../../mixins/DateFilter";
 
@@ -55,7 +83,16 @@ export default {
         variables: { id: this.session.id },
       });
       toast("success", data.deleteSession.message);
-      this.$emit("session-deleted");
+      this.$emit("refresh");
+    },
+    async updateSession() {
+      console.log(this.session.id);
+      console.log(this.session.cancelled);
+      await this.$apollo.mutate({
+        mutation: TOGGLE_CANCELLED,
+        variables: { id: this.session.id, cancelled: this.session.cancelled },
+      });
+      this.$emit("refresh");
     },
   },
 };
