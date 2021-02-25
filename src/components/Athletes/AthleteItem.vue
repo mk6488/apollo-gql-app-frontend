@@ -16,7 +16,7 @@
     <td :class="{ 'text-danger': !athlete.current }">
       {{ athlete.dob | birthDateFilter }}
     </td>
-    <td>
+    <td class="d-flex">
       <button
         class="btn btn-success mr-2 btn-sm"
         @click="$router.push(`/dashboard/athlete/${athlete.id}`)"
@@ -24,22 +24,42 @@
         View
       </button>
       <button
+        :disabled="!athlete.current"
         class="btn btn-info mr-2 btn-sm"
         @click="$router.push(`/dashboard/add-athlete?edit=${athlete.id}`)"
       >
         Edit
       </button>
-      <button class="btn btn-danger btn-sm" @click="deleteAthlete">
-        Delete
-      </button>
+      <div
+        class="custom-control custom-switch d-flex align-items-start flex-column"
+      >
+        <input
+          @change="updateAthlete"
+          type="checkbox"
+          class="custom-control-input"
+          :id="athlete.id"
+          v-model="athlete.current"
+        />
+        <label
+          v-if="athlete.current"
+          class="custom-control-label text-danger font-weight-bold"
+          :for="athlete.id"
+          >Active</label
+        >
+        <label
+          v-else
+          class="custom-control-label text-secondary font-weight-bold"
+          :for="athlete.id"
+          >Inactive</label
+        >
+      </div>
     </td>
   </tr>
 </template>
 
 <script>
+import { TOGGLE_CURRENT } from "../../gql";
 import moment from "moment";
-import { DELETE_ATHLETE } from "../../gql";
-import { toast } from "../../helpers";
 import DateTimeMixin from "../../mixins/DateFilter";
 
 export default {
@@ -58,13 +78,12 @@ export default {
     age: "",
   }),
   methods: {
-    async deleteAthlete() {
-      let { data } = await this.$apollo.mutate({
-        mutation: DELETE_ATHLETE,
-        variables: { id: this.athlete.id },
+    async updateAthlete() {
+      await this.$apollo.mutate({
+        mutation: TOGGLE_CURRENT,
+        variables: { id: this.athlete.id, current: this.athlete.current },
       });
-      toast("success", data.deleteAthlete.message);
-      this.$emit("athlete-deleted");
+      this.$emit("refresh");
     },
 
     currentAge(val) {

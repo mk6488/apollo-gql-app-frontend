@@ -86,8 +86,6 @@ export default {
       this.$emit("refresh");
     },
     async updateSession() {
-      console.log(this.session.id);
-      console.log(this.session.cancelled);
       await this.$apollo.mutate({
         mutation: TOGGLE_CANCELLED,
         variables: { id: this.session.id, cancelled: this.session.cancelled },

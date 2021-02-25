@@ -176,6 +176,20 @@ mutation UPDATE_ATHLETE(
 }
 `
 
+export const TOGGLE_CURRENT = gql `
+mutation TOGGLE_CURRENT(
+	$id: ID!
+	$current: Boolean!
+) {
+	toggleCurrent(
+		id: $id
+		current: $current
+	) {
+		id
+	}
+}
+`
+
 export const DELETE_ATHLETE = gql `
 mutation DELETE_ATHLETE($id: ID!) {
 	deleteAthlete(id: $id) {
