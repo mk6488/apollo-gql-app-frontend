@@ -1,6 +1,9 @@
 <template>
   <tr>
     <th scope="row">{{ sno + 1 }}</th>
+    <th scope="row">
+      <img :src="athlete.avatar" class="img-fluid" height="40" width="40" />
+    </th>
     <td :class="{ 'text-danger': !athlete.current }">
       {{ athlete.firstName }} {{ athlete.lastName }}
     </td>

@@ -3,6 +3,7 @@
     <thead v-if="athletes.length > 0">
       <tr>
         <th scope="col">#Sno</th>
+        <th scope="col">Avatar</th>
         <th scope="col">Name</th>
         <th scope="col">Age</th>
         <th scope="col">Squad</th>

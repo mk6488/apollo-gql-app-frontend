@@ -25,11 +25,13 @@ query GET_ATHLETES_WITH_PAGINATION($page: Int!, $limit: Int!) {
 			id
 			firstName
       lastName
+			gender
 			squad
       weight
       current
       doe
       dob
+			avatar
 			author {
 				username
 				firstName
@@ -58,11 +60,13 @@ query GET_MY_ATHLETES_WITH_PAGINATION($page: Int!, $limit: Int!) {
 			id
 			firstName
       lastName
+			gender
 			squad
       weight
       current
       doe
       dob
+			avatar
 		}
 		paginator {
 			hasNextPage
@@ -85,11 +89,13 @@ query GET_ATHLETE_BY_ID($id: ID!) {
 		id
     firstName
     lastName
+		gender
     squad
     weight
     current
     doe
     dob
+		avatar
 		createdAt
 		updatedAt
 		author {
@@ -103,31 +109,37 @@ export const CREATE_ATHLETE = gql `
 mutation CREATE_ATHLETE(
 	$firstName: String!
 	$lastName: String!
+	$gender: String!
 	$squad: String!
 	$weight: Float
 	$current: Boolean!
   $doe: String
   $dob: String
+	$avatar: String
 ) {
 	createAthlete(
 		newAthlete: {
       firstName: $firstName
       lastName: $lastName
+			gender: $gender
       squad: $squad
       weight: $weight
       current: $current
       doe: $doe
       dob: $dob
+			avatar: $avatar
     }
 	) {
 		id
 		firstName
 		lastName
+		gender
 		squad
     weight
     current
     doe
     dob
+		avatar
 	}
 }
 `
@@ -137,22 +149,26 @@ mutation UPDATE_ATHLETE(
 	$id: ID!
 	$firstName: String!
 	$lastName: String!
+	$gender: String!
 	$squad: String!
 	$weight: Float
 	$current: Boolean!
   $doe: String
   $dob: String
+	$avatar: String
 ) {
 	updateAthlete(
 		id: $id
 		updatedAthlete: {
 			firstName: $firstName
       lastName: $lastName
+			gender: $gender
       squad: $squad
       weight: $weight
       current: $current
       doe: $doe
       dob: $dob
+			avatar: $avatar
 		}
 	) {
 		id

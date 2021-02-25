@@ -20,13 +20,13 @@
             <label
               v-if="chosenAthlete === athlete.id"
               :for="athlete.id"
-              class="btn btn btn-primary btn-athlete"
+              class="btn btn-primary btn-athlete"
               >{{ athlete.firstName }}</label
             >
             <label
               v-else
               :for="athlete.id"
-              class="btn btn btn-outline-primary btn-athlete"
+              class="btn btn-outline-primary btn-athlete"
               >{{ athlete.firstName }}</label
             >
           </div>

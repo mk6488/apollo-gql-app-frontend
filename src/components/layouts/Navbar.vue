@@ -2,7 +2,7 @@
   <div class="app-navbar">
     <b-navbar toggleable="lg" type="dark" variant="dark" fixed="top">
       <b-navbar-brand href="/"
-        >Athlete<span class="text-primary"> Book</span></b-navbar-brand
+        >Athlete<span class="text-primary">Book</span></b-navbar-brand
       >
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
