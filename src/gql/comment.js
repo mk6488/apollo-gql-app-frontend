@@ -36,16 +36,8 @@ query GET_COMMENT_BY_ID($id: ID!) {
     weekNumber
     type
     comment
-    athlete {
-      firstName
-      lastName
-      squad
-    }
-		createdAt
-		updatedAt
-		author {
-			group
-		}
+    athlete { id }
+		author { id }
 	}
 }
 `

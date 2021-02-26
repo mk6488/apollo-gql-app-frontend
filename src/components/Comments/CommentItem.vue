@@ -17,17 +17,12 @@
       <span class="badge text-light bg-warning">{{ comment.type }}</span>
     </td>
     <td
+      v-b-popover.hover="comment.comment"
       v-html="comment.comment"
       class="text-nowrap overflow-hidden"
       style="max-width: 150px"
     ></td>
     <td>
-      <button
-        class="btn btn-success mr-2 btn-sm"
-        @click="$router.push(`/comment/${comment.id}`)"
-      >
-        View
-      </button>
       <button
         class="btn btn-info mr-2 btn-sm"
         @click="$router.push(`/dashboard/add-comment?edit=${comment.id}`)"

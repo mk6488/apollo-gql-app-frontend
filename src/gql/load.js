@@ -40,16 +40,8 @@ query GET_LOAD_BY_ID($id: ID!) {
     duration
     rpe
     load
-    athlete {
-      firstName
-      lastName
-      squad
-    }
-		createdAt
-		updatedAt
-		author {
-			group
-		}
+    athlete { id }
+    author { id }
 	}
 }
 `

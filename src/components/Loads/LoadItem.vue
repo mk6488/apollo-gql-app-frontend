@@ -10,12 +10,6 @@
     <td>{{ load.load }}</td>
     <td>
       <button
-        class="btn btn-success mr-2 btn-sm"
-        @click="$router.push(`/load/${load.id}`)"
-      >
-        View
-      </button>
-      <button
         class="btn btn-info mr-2 btn-sm"
         @click="$router.push(`/dashboard/add-load?edit=${load.id}`)"
       >

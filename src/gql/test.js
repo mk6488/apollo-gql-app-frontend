@@ -36,16 +36,10 @@ query GET_TEST_BY_ID($id: ID!) {
     weekNumber
     test
     result
-    athlete {
-      firstName
-      lastName
-      squad
-    }
+    athlete { id }
 		createdAt
 		updatedAt
-		author {
-			group
-		}
+		author { id }
 	}
 }
 `

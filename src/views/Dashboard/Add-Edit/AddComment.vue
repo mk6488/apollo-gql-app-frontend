@@ -11,7 +11,9 @@
             <!-- LEFT-HAND SIDE -->
             <div class="col-md-4 col-sm-12">
               <AthleteButtons
-                :chosenAthlete="newComment.athlete"
+                :chosenAthlete="
+                  editMode ? newComment.athlete.id : newComment.athlete
+                "
                 @selected-athlete="updateAthlete"
               />
             </div>

@@ -66,11 +66,6 @@
             >
           </li>
           <li class="nav-item" v-if="isAuth">
-            <routerLink class="nav-link text-primary" to="/dashboard/my-charts"
-              >Charts</routerLink
-            >
-          </li>
-          <li class="nav-item" v-if="isAuth">
             <routerLink class="nav-link text-primary" to="/dashboard/my-profile"
               >My Profile</routerLink
             >

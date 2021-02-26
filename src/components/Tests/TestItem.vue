@@ -12,12 +12,6 @@
     ></td>
     <td>
       <button
-        class="btn btn-success mr-2 btn-sm"
-        @click="$router.push(`/test/${test.id}`)"
-      >
-        View
-      </button>
-      <button
         class="btn btn-info mr-2 btn-sm"
         @click="$router.push(`/dashboard/add-test?edit=${test.id}`)"
       >

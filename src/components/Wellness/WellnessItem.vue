@@ -12,12 +12,6 @@
     <td>{{ wellness.average }}</td>
     <td>
       <button
-        class="btn btn-success mr-2 btn-sm"
-        @click="$router.push(`/wellness/${wellness.id}`)"
-      >
-        View
-      </button>
-      <button
         class="btn btn-info mr-2 btn-sm"
         @click="$router.push(`/dashboard/add-wellness?edit=${wellness.id}`)"
       >

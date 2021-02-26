@@ -11,7 +11,9 @@
             <!-- LEFT-HAND SIDE -->
             <div class="col-md-4 col-sm-12">
               <AthleteButtons
-                :chosenAthlete="newWellness.athlete"
+                :chosenAthlete="
+                  editMode ? newWellness.athlete.id : newWellness.athlete
+                "
                 @selected-athlete="updateAthlete"
               />
             </div>
@@ -166,7 +168,6 @@ export default {
 
     async getWellness() {
       this.isLoading = true;
-      this.calculateAverage();
       let { data } = await this.$apollo.query({
         query: GET_WELLNESS_BY_ID,
         variables: { id: this.$route.query.edit },
@@ -177,6 +178,7 @@ export default {
 
     async updateWellness() {
       this.isLoading = true;
+      this.calculateAverage();
       this.updatedWellness = this.newWellness;
       await this.$apollo.mutate({
         mutation: UPDATE_WELLNESS,
@@ -194,6 +196,7 @@ export default {
     if (this.editMode) {
       // Fetch the wellness from the backend using GQS
       this.getWellness();
+      console.log(this.newWellness);
     }
   },
 };

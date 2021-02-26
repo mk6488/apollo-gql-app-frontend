@@ -44,13 +44,8 @@ query GET_WELLNESS_BY_ID($id: ID!) {
     soreness
     nutrition
     average
-    athlete {
-      firstName
-      lastName
-    }
-    author {
-      username
-    }
+    athlete { id }
+    author { id }
 	}
 }
 `

@@ -12,32 +12,6 @@
           <hr />
           <div class="row">
             <div class="col-md-6 col-sm-12">
-              <!-- Active/Inactive Toggle Button -->
-              <div
-                v-if="editMode"
-                class="custom-control custom-switch d-flex align-items-end flex-column"
-              >
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="customSwitch1"
-                  v-model="newAthlete.current"
-                />
-                <label
-                  v-if="newAthlete.current === true"
-                  class="custom-control-label text-primary font-weight-bold"
-                  for="customSwitch1"
-                >
-                  Active
-                </label>
-                <label
-                  v-else
-                  class="custom-control-label text-secondary font-weight-bold"
-                  for="customSwitch1"
-                >
-                  Inactive
-                </label>
-              </div>
               <!-- First Name -->
               <div class="form-group">
                 <label for="firstName" class="text-primary font-weight-bold">

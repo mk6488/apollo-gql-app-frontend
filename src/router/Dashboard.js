@@ -73,11 +73,6 @@ export default {
 			component: () => import('../views/Dashboard/Add-Edit/AddTest.vue')
 		},
 		{
-			path: 'my-charts',
-			name: 'MyCharts',
-			component: () => import('../views/Dashboard/MyCharts.vue')
-		},
-		{
 			path: 'my-profile',
 			name: 'MyProfile',
 			component: () => import('../views/Dashboard/MyProfile.vue')
