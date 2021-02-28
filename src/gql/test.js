@@ -1,5 +1,17 @@
 import gql from 'graphql-tag'
 
+export const ALL_TESTS_FOR_ATHLETE = gql `
+query ALL_TESTS_FOR_ATHLETE($id: ID!) {
+  allTestsForAthlete(id: $id) {
+    id
+    date
+    weekNumber
+    test
+    result
+  }
+}
+`
+
 export const GET_MY_TESTS_WITH_PAGINATION = gql `
 query GET_MY_TESTS_WITH_PAGINATION($page: Int!, $limit: Int!) {
 	getMyTestsWithPagination(page: $page, limit: $limit) {

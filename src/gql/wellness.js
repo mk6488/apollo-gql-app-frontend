@@ -1,5 +1,20 @@
 import gql from 'graphql-tag'
 
+export const ALL_WELLNESS_FOR_ATHLETE = gql `
+query ALL_WELLNESS_FOR_ATHLETE($id: ID!) {
+  allWellnessForAthlete(id: $id) {
+    date
+    weekNumber
+    sleep
+    stress
+    fatigue
+    soreness
+    nutrition
+    average
+  }
+}
+`
+
 export const GET_MY_WELLNESS_WITH_PAGINATION = gql `
 query GET_MY_WELLNESS_WITH_PAGINATION($page: Int!, $limit: Int!) {
 	getMyWellnessWithPagination(page: $page, limit: $limit) {
@@ -50,20 +65,6 @@ query GET_WELLNESS_BY_ID($id: ID!) {
 }
 `
 
-export const ALL_WELLNESS_FOR_ATHLETE = gql `
-query ALL_WELLNESS_FOR_ATHLETE($id: ID!) {
-  allWellnessForAthlete(id: $id) {
-    date
-    weekNumber
-    sleep
-    stress
-    fatigue
-    soreness
-    nutrition
-    average
-  }
-}
-`
 
 export const CREATE_WELLNESS = gql `
 mutation CREATE_WELLNESS(

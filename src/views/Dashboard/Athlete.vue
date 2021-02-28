@@ -34,23 +34,49 @@
               <!-- RIGHT-HAND SIDE -->
               <div class="col-md-10">
                 <div class="card-body">
-                  <!-- Week's Card -->
-                  <div class="card">
-                    <div class="card-header">
-                      <h3 class="text-secondary">This Week's Wellness</h3>
+                  <!-- Wellness Week Card -->
+                  <div class="card border-primary mb-3">
+                    <div class="card-header" @click="toggleWellnessWeek">
+                      This Week's Wellness
                     </div>
-                    <div class="card-body">
+                    <div v-if="showWellnessWeek" class="card-body">
                       <WellnessGaugeChart :athleteId="this.$route.params.id" />
                     </div>
                   </div>
-
-                  <!-- Season's Card -->
-                  <div class="card mt-3">
-                    <div class="card-header">
-                      <h3 class="text-secondary">This Season's Wellness</h3>
+                  <!-- Wellness Season Card -->
+                  <div class="card border-primary mb-3">
+                    <div class="card-header" @click="toggleWellnessSeason">
+                      This Season's Wellness
                     </div>
-                    <div class="card-body">
+                    <div v-if="showWellnessSeason" class="card-body">
                       <WellnessLineChart :athleteId="this.$route.params.id" />
+                    </div>
+                  </div>
+                  <!-- Loads Card -->
+                  <div class="card border-primary mb-3">
+                    <div class="card-header" @click="toggleLoads">
+                      this Season's Training Loads
+                    </div>
+                    <div v-if="showLoads" class="card-body">
+                      <LoadBarChart :athleteId="this.$route.params.id" />
+                    </div>
+                  </div>
+                  <!-- Comments Card -->
+                  <div class="card border-primary mb-3">
+                    <div class="card-header" @click="toggleComments">
+                      This Season's Comments
+                    </div>
+                    <div v-if="showComments" class="card-body">
+                      <CommentTableChart :athleteId="this.$route.params.id" />
+                    </div>
+                  </div>
+                  <!-- Tests Card -->
+                  <div class="card border-primary mb-3">
+                    <div class="card-header" @click="toggleTests">
+                      This Season's Tests
+                    </div>
+                    <div v-if="showTests" class="card-body">
+                      <TestTableChart :athleteId="this.$route.params.id" />
                     </div>
                   </div>
                 </div>
@@ -65,16 +91,30 @@
 
 <script>
 import moment from "moment";
+import CommentTableChart from "../../components/Charts/CommentTableChart";
+import LoadBarChart from "../../components/Charts/LoadBarChart";
+import TestTableChart from "../../components/Charts/TestTableChart";
 import WellnessGaugeChart from "../../components/Charts/WellnessGaugeChart";
 import WellnessLineChart from "../../components/Charts/WellnessLineChart";
 import { GET_ATHLETE_BY_ID } from "../../gql";
 import DateFilterMixin from "../../mixins/DateFilter";
 
 export default {
-  components: { WellnessGaugeChart, WellnessLineChart },
+  components: {
+    CommentTableChart,
+    LoadBarChart,
+    TestTableChart,
+    WellnessGaugeChart,
+    WellnessLineChart,
+  },
   mixins: [DateFilterMixin],
   data: () => ({
     athlete: {},
+    showWellnessWeek: true,
+    showWellnessSeason: false,
+    showLoads: false,
+    showComments: false,
+    showTests: false,
   }),
   methods: {
     async getAthlete() {
@@ -84,7 +124,21 @@ export default {
       });
       this.athlete = data.getAthleteById;
     },
-
+    toggleWellnessWeek() {
+      this.showWellnessWeek = !this.showWellnessWeek;
+    },
+    toggleWellnessSeason() {
+      this.showWellnessSeason = !this.showWellnessSeason;
+    },
+    toggleLoads() {
+      this.showLoads = !this.showLoads;
+    },
+    toggleComments() {
+      this.showComments = !this.showComments;
+    },
+    toggleTests() {
+      this.showTests = !this.showTests;
+    },
     currentAge(val) {
       return moment(new Date()).diff(val, "years");
     },

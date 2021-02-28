@@ -19,7 +19,7 @@
     <td
       v-b-popover.hover="comment.comment"
       v-html="comment.comment"
-      class="text-nowrap overflow-hidden"
+      class="text-truncate"
       style="max-width: 150px"
     ></td>
     <td>

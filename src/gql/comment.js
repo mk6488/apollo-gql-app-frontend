@@ -1,5 +1,17 @@
 import gql from 'graphql-tag'
 
+export const ALL_COMMENTS_FOR_ATHLETE = gql `
+query ALL_COMMENTS_FOR_ATHLETE($id: ID!) {
+  allCommentsForAthlete(id: $id) {
+    id
+    date
+    weekNumber
+    type
+    comment
+  }
+}
+`
+
 export const GET_MY_COMMENTS_WITH_PAGINATION = gql `
 query GET_MY_COMMENTS_WITH_PAGINATION($page: Int!, $limit: Int!) {
 	getMyCommentsWithPagination(page: $page, limit: $limit) {

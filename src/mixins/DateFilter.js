@@ -10,6 +10,10 @@ export default {
 			return moment(val).format("Do MMM YY")
 		},
 
+		shortFilter(val) {
+			return moment(val).format("MMM Do")
+		},
+
 		birthDateFilter(val) {
 			return moment(val).format("DD/MM/YYYY");
 		},

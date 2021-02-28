@@ -14,13 +14,13 @@
           <label
             v-if="chosenBtn === item.id"
             :for="item.id"
-            class="btn btn-primary btn-athlete"
+            class="btn btn-secondary btn-athlete"
             >{{ item.name }}</label
           >
           <label
             v-else
             :for="item.id"
-            class="btn btn-outline-primary btn-athlete"
+            class="btn btn-outline-secondary btn-athlete"
             >{{ item.name }}</label
           >
         </div>
@@ -31,6 +31,7 @@
 </template>
 
 <script>
+import moment from "moment";
 import { ALL_WELLNESS_FOR_ATHLETE } from "../../gql";
 
 export default {
@@ -64,7 +65,7 @@ export default {
       let wellness = data.allWellnessForAthlete;
       wellness = this.$_.sortBy(wellness, "date");
       wellness.forEach((d) => {
-        this.date.push(d.date);
+        this.date.push(moment(d.date).format("MMM Do"));
         this.sleep.push(d.sleep);
         this.stress.push(d.stress);
         this.fatigue.push(d.fatigue);
@@ -122,7 +123,7 @@ export default {
         yAxis: { min: 1 },
         dataZoom: [
           { startValue: new Date(), endValue: new Date() - 28 },
-          { type: "inside" },
+          { type: "inside", zoomOnMouseWheel: false },
         ],
         visualMap: {
           top: 50,
