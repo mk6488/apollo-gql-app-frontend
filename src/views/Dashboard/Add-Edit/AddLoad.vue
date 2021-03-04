@@ -42,9 +42,13 @@
                   id="type"
                   v-model="newLoad.type"
                 >
-                  <option value="Water">Water</option>
-                  <option value="Erg">Erg</option>
-                  <option value="S&C">S&C</option>
+                  <option
+                    v-for="item in optionsArray"
+                    :key="item.name"
+                    :value="item.value"
+                  >
+                    {{ item.name }}
+                  </option>
                 </select>
               </div>
               <!-- Duration -->
@@ -125,6 +129,14 @@ export default {
     },
   },
   data: () => ({
+    optionsArray: [
+      { value: "Water", name: "Water" },
+      { value: "Erg", name: "Erg" },
+      { value: "S&C", name: "S&C" },
+      { value: "Walk", name: "Walk" },
+      { value: "Run", name: "Run" },
+      { value: "Cycle", name: "Cycle" },
+    ],
     newLoad: {
       date: "",
       weekNumber: "",
