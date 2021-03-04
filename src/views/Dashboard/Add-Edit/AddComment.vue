@@ -120,16 +120,19 @@ export default {
     updateWeekNumber() {
       this.newComment.weekNumber = weekNumber(this.newComment.date);
     },
-
     async addNewComment() {
-      this.isLoading = true;
-      await this.$apollo.mutate({
-        mutation: CREATE_COMMENT,
-        variables: this.newComment,
-      });
-      this.isLoading = false;
-      toast("success", "Comment created");
-      this.$router.push("/dashboard/my-comments");
+      if (this.validated()) {
+        this.isLoading = true;
+        await this.$apollo.mutate({
+          mutation: CREATE_COMMENT,
+          variables: this.newComment,
+        });
+        this.isLoading = false;
+        toast("success", "Comment created");
+        this.$router.push("/dashboard/my-comments");
+      } else {
+        toast("error", "Something is missing!");
+      }
     },
     async getComment() {
       this.isLoading = true;
@@ -141,18 +144,34 @@ export default {
       this.newComment = data.getCommentById;
     },
     async updateComment() {
-      this.isLoading = true;
-      this.updatedComment = this.newComment;
-      await this.$apollo.mutate({
-        mutation: UPDATE_COMMENT,
-        variables: {
-          ...this.updatedComment,
-          id: this.$route.query.edit,
-        },
-      });
-      this.isLoading = false;
-      toast("success", "Comment updated");
-      this.$router.push("/dashboard/my-comments");
+      if (this.validated()) {
+        this.isLoading = true;
+        this.updatedComment = this.newComment;
+        await this.$apollo.mutate({
+          mutation: UPDATE_COMMENT,
+          variables: {
+            ...this.updatedComment,
+            id: this.$route.query.edit,
+          },
+        });
+        this.isLoading = false;
+        toast("success", "Comment updated");
+        this.$router.push("/dashboard/my-comments");
+      } else {
+        toast("error", "Something is missing!");
+      }
+    },
+    validated() {
+      if (
+        !this.newComment.date ||
+        !this.newComment.type ||
+        !this.newComment.comment ||
+        !this.newComment.athlete
+      ) {
+        return false;
+      } else {
+        return true;
+      }
     },
   },
   created() {

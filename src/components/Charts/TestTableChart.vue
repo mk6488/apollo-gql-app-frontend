@@ -13,7 +13,7 @@
           <tr v-for="test in tests" :key="test.id">
             <td>{{ test.date | dateFilter }}</td>
             <td>{{ test.test }}</td>
-            <td v-html="test.result"></td>
+            <td>{{ test.result }}</td>
           </tr>
         </tbody>
       </table>
@@ -38,7 +38,6 @@ export default {
         variables: { id: this.athleteId },
       });
       this.tests = data.allTestsForAthlete;
-      // this.tests = this.$_.sortBy(this.tests, "date");
     },
   },
   created() {

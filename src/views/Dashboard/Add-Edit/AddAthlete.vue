@@ -152,15 +152,19 @@ export default {
   }),
   methods: {
     async addNewAthlete() {
-      this.convertWeight();
-      this.isLoading = true;
-      await this.$apollo.mutate({
-        mutation: CREATE_ATHLETE,
-        variables: this.newAthlete,
-      });
-      this.isLoading = false;
-      toast("success", "Athlete created");
-      this.$router.push("/dashboard/my-athletes");
+      if (this.validated()) {
+        this.convertWeight();
+        this.isLoading = true;
+        await this.$apollo.mutate({
+          mutation: CREATE_ATHLETE,
+          variables: this.newAthlete,
+        });
+        this.isLoading = false;
+        toast("success", "Athlete created");
+        this.$router.push("/dashboard/my-athletes");
+      } else {
+        toast("error", "Something is missing!");
+      }
     },
     async getAthlete() {
       this.isLoading = true;
@@ -172,22 +176,38 @@ export default {
       this.newAthlete = data.getAthleteById;
     },
     async updateAthlete() {
-      this.convertWeight();
-      this.updatedAthlete = this.newAthlete;
-      this.isLoading = true;
-      await this.$apollo.mutate({
-        mutation: UPDATE_ATHLETE,
-        variables: {
-          ...this.updatedAthlete,
-          id: this.$route.query.edit,
-        },
-      });
-      this.isLoading = false;
-      toast("success", "Athlete updated");
-      this.$router.push("/dashboard/my-athletes");
+      if (this.validated()) {
+        this.convertWeight();
+        this.updatedAthlete = this.newAthlete;
+        this.isLoading = true;
+        await this.$apollo.mutate({
+          mutation: UPDATE_ATHLETE,
+          variables: {
+            ...this.updatedAthlete,
+            id: this.$route.query.edit,
+          },
+        });
+        this.isLoading = false;
+        toast("success", "Athlete updated");
+        this.$router.push("/dashboard/my-athletes");
+      } else {
+        toast("error", "Something is missing!");
+      }
     },
     convertWeight() {
       this.newAthlete.weight = parseFloat(this.newAthlete.weight);
+    },
+    validated() {
+      if (
+        !this.newAthlete.firstName ||
+        !this.newAthlete.lastName ||
+        !this.newAthlete.squad ||
+        !this.newAthlete.cancelled
+      ) {
+        return false;
+      } else {
+        return true;
+      }
     },
   },
   created() {

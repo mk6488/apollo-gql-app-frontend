@@ -28,6 +28,31 @@
                   </p>
                   <p class="mb-1">Squad: {{ athlete.squad }}</p>
                   <p class="mb-1">Weight: {{ athlete.weight }} Kg</p>
+                  <hr />
+                  <p v-if="last2K" class="mb-1">
+                    Last 2K:
+                    <span id="popover-target-1" class="font-weight-bold">{{
+                      last2K
+                    }}</span>
+                    <b-popover
+                      target="popover-target-1"
+                      triggers="hover"
+                      placement="rightbottom"
+                    >
+                      <template #title>Training Splits</template>
+                      U2: <b>{{ U2 }}</b
+                      ><br />
+                      U1: <b>{{ U1 }}</b
+                      ><br />
+                      AT: <b>{{ AT }}</b
+                      ><br />
+                      TR: <b>{{ TR }}</b
+                      ><br />
+                      AN: <b>{{ AN }}</b
+                      ><br />
+                    </b-popover>
+                  </p>
+                  <p v-if="prev2K" class="mb-1">Previous: {{ prev2K }}</p>
                 </div>
               </div>
 
@@ -96,7 +121,8 @@ import LoadBarChart from "../../components/Charts/LoadBarChart";
 import TestTableChart from "../../components/Charts/TestTableChart";
 import WellnessGaugeChart from "../../components/Charts/WellnessGaugeChart";
 import WellnessLineChart from "../../components/Charts/WellnessLineChart";
-import { GET_ATHLETE_BY_ID } from "../../gql";
+import { GET_ATHLETE_BY_ID, ALL_TESTS_FOR_ATHLETE } from "../../gql";
+import { calculateSplits } from "../../helpers";
 import DateFilterMixin from "../../mixins/DateFilter";
 
 export default {
@@ -110,6 +136,13 @@ export default {
   mixins: [DateFilterMixin],
   data: () => ({
     athlete: {},
+    last2K: "",
+    prev2K: "",
+    U2: "",
+    U1: "",
+    AT: "",
+    TR: "",
+    AN: "",
     showWellnessWeek: true,
     showWellnessSeason: false,
     showLoads: false,
@@ -123,6 +156,29 @@ export default {
         variables: { id: this.$route.params.id },
       });
       this.athlete = data.getAthleteById;
+    },
+    async getLast2K() {
+      let { data } = await this.$apollo.query({
+        query: ALL_TESTS_FOR_ATHLETE,
+        variables: { id: this.$route.params.id },
+      });
+      const tests = data.allTestsForAthlete;
+      const twoKtests = this.$_.where(tests, { test: "2K" });
+      if (twoKtests.length > 0) {
+        this.last2K = twoKtests[0].result;
+        let splits = calculateSplits(this.last2K);
+        this.U2 = splits[0];
+        this.U1 = splits[1];
+        this.AT = splits[2];
+        this.TR = splits[3];
+        this.AN = splits[4];
+        if (twoKtests.length > 1) {
+          this.prev2K = twoKtests[1].result;
+        }
+      } else {
+        this.last2K = "";
+        this.prev2K = "";
+      }
     },
     toggleWellnessWeek() {
       this.showWellnessWeek = !this.showWellnessWeek;
@@ -145,6 +201,7 @@ export default {
   },
   mounted() {
     this.getAthlete();
+    this.getLast2K();
   },
 };
 </script>

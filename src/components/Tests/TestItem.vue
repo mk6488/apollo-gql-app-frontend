@@ -5,11 +5,7 @@
     <td>{{ test.weekNumber }}</td>
     <td>{{ test.athlete.firstName }}</td>
     <td>{{ test.test }}</td>
-    <td
-      v-html="test.result"
-      class="text-nowrap overflow-hidden"
-      style="max-width: 150px"
-    ></td>
+    <td>{{ test.result }}</td>
     <td>
       <button
         class="btn btn-info mr-2 btn-sm"

@@ -122,22 +122,23 @@ export default {
     //   this.newSession.image = data.imageUploader;
     //   this.$refs["imageUploader"] = null;
     // },
-
     closePage() {
       this.$router.push("/dashboard/my-sessions");
     },
-
     async addNewSession() {
-      this.isLoading = true;
-      this.updateImage();
-      await this.$apollo.mutate({
-        mutation: CREATE_SESSION,
-        variables: this.newSession,
-      });
-      this.isLoading = false;
-      toast("success", "Session created");
+      if (this.validated()) {
+        this.isLoading = true;
+        this.updateImage();
+        await this.$apollo.mutate({
+          mutation: CREATE_SESSION,
+          variables: this.newSession,
+        });
+        this.isLoading = false;
+        toast("success", "Session created");
+      } else {
+        toast("error", "Something is missing!");
+      }
     },
-
     async getSession() {
       this.isLoading = true;
       let { data } = await this.$apollo.query({
@@ -147,23 +148,25 @@ export default {
       this.isLoading = false;
       this.newSession = data.getSessionById;
     },
-
     async updateSession() {
-      this.isLoading = true;
-      this.updateImage();
-      this.updatedSession = this.newSession;
-      await this.$apollo.mutate({
-        mutation: UPDATE_SESSION,
-        variables: {
-          ...this.updatedSession,
-          id: this.$route.query.edit,
-        },
-      });
-      this.isLoading = false;
-      toast("success", "Session updated");
-      this.$router.push("/dashboard/my-sessions");
+      if (this.validated()) {
+        this.isLoading = true;
+        this.updateImage();
+        this.updatedSession = this.newSession;
+        await this.$apollo.mutate({
+          mutation: UPDATE_SESSION,
+          variables: {
+            ...this.updatedSession,
+            id: this.$route.query.edit,
+          },
+        });
+        this.isLoading = false;
+        toast("success", "Session updated");
+        this.$router.push("/dashboard/my-sessions");
+      } else {
+        toast("error", "Something is missing!");
+      }
     },
-
     updateImage() {
       if (this.newSession.type === "Water") {
         this.newSession.image =
@@ -174,6 +177,18 @@ export default {
       } else if (this.newSession.type === "S&C") {
         this.newSession.image =
           "http://localhost:4000/s-c-session-1613394382075.png";
+      }
+    },
+    validated() {
+      if (
+        !this.newSession.date ||
+        !this.newSession.type ||
+        !this.newSession.info ||
+        !this.newSession.cancelled
+      ) {
+        return false;
+      } else {
+        return true;
       }
     },
   },

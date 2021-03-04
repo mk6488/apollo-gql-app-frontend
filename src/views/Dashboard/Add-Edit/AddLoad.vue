@@ -153,18 +153,21 @@ export default {
       this.newLoad.rpe = parseInt(this.newLoad.rpe);
       this.newLoad.load = parseInt(this.newLoad.load);
     },
-
     async addNewLoad() {
-      this.isLoading = true;
-      this.calculateLoad();
-      this.convertNumbers();
-      await this.$apollo.mutate({
-        mutation: CREATE_LOAD,
-        variables: this.newLoad,
-      });
-      this.isLoading = false;
-      toast("success", "Load created");
-      this.$router.push("/dashboard/my-loads");
+      if (this.validated()) {
+        this.isLoading = true;
+        this.calculateLoad();
+        this.convertNumbers();
+        await this.$apollo.mutate({
+          mutation: CREATE_LOAD,
+          variables: this.newLoad,
+        });
+        this.isLoading = false;
+        toast("success", "Load created");
+        this.$router.push("/dashboard/my-loads");
+      } else {
+        toast("error", "Something is missing!");
+      }
     },
     async getLoad() {
       this.isLoading = true;
@@ -176,20 +179,37 @@ export default {
       this.newLoad = data.getLoadById;
     },
     async updateLoad() {
-      this.isLoading = true;
-      this.calculateLoad();
-      this.convertNumbers();
-      this.updatedLoad = this.newLoad;
-      await this.$apollo.mutate({
-        mutation: UPDATE_LOAD,
-        variables: {
-          ...this.updatedLoad,
-          id: this.$route.query.edit,
-        },
-      });
-      this.isLoading = false;
-      toast("success", "Load updated");
-      this.$router.push("/dashboard/my-loads");
+      if (this.validated()) {
+        this.isLoading = true;
+        this.calculateLoad();
+        this.convertNumbers();
+        this.updatedLoad = this.newLoad;
+        await this.$apollo.mutate({
+          mutation: UPDATE_LOAD,
+          variables: {
+            ...this.updatedLoad,
+            id: this.$route.query.edit,
+          },
+        });
+        this.isLoading = false;
+        toast("success", "Load updated");
+        this.$router.push("/dashboard/my-loads");
+      } else {
+        toast("error", "Something is missing!");
+      }
+    },
+    validated() {
+      if (
+        !this.newLoad.date ||
+        !this.newLoad.type ||
+        !this.newLoad.duration ||
+        !this.newLoad.rpe ||
+        !this.newLoad.athlete
+      ) {
+        return false;
+      } else {
+        return true;
+      }
     },
   },
   created() {

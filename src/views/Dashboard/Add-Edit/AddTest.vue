@@ -53,7 +53,8 @@
                 <label for="info" class="text-primary font-weight-bold">
                   Test
                 </label>
-                <VueEditor v-model="newTest.result" />
+                <input type="text" v-model="newTest.result" />
+                <p>{{ newTest.result }}</p>
               </div>
               <!-- Button -->
               <div class="form-group">
@@ -83,13 +84,12 @@
 </template>
 
 <script>
-import { VueEditor } from "vue2-editor";
 import AthleteButtons from "../../../components/Athletes/AthleteButtons";
 import { CREATE_TEST, GET_TEST_BY_ID, UPDATE_TEST } from "../../../gql";
 import { toast, weekNumber } from "../../../helpers";
 
 export default {
-  components: { AthleteButtons, VueEditor },
+  components: { AthleteButtons },
   computed: {
     editMode() {
       return !!this.$route.query.edit;
@@ -99,11 +99,10 @@ export default {
     newTest: {
       date: "",
       weekNumber: "",
-      type: "",
       test: "",
+      rsult: "",
       athlete: "",
     },
-    weight: "",
     updatedTest: {},
     isLoading: false,
   }),
@@ -114,16 +113,19 @@ export default {
     updateWeekNumber() {
       this.newTest.weekNumber = weekNumber(this.newTest.date);
     },
-
     async addNewTest() {
-      this.isLoading = true;
-      await this.$apollo.mutate({
-        mutation: CREATE_TEST,
-        variables: this.newTest,
-      });
-      this.isLoading = false;
-      toast("success", "Test created");
-      this.$router.push("/dashboard/my-tests");
+      if (this.validated()) {
+        this.isLoading = true;
+        await this.$apollo.mutate({
+          mutation: CREATE_TEST,
+          variables: this.newTest,
+        });
+        this.isLoading = false;
+        toast("success", "Test created");
+        this.$router.push("/dashboard/my-tests");
+      } else {
+        toast("error", "Something is missing!");
+      }
     },
     async getTest() {
       this.isLoading = true;
@@ -135,18 +137,34 @@ export default {
       this.newTest = data.getTestById;
     },
     async updateTest() {
-      this.isLoading = true;
-      this.updatedTest = this.newTest;
-      await this.$apollo.mutate({
-        mutation: UPDATE_TEST,
-        variables: {
-          ...this.updatedTest,
-          id: this.$route.query.edit,
-        },
-      });
-      this.isLoading = false;
-      toast("success", "Test updated");
-      this.$router.push("/dashboard/my-tests");
+      if (this.validated()) {
+        this.isLoading = true;
+        this.updatedTest = this.newTest;
+        await this.$apollo.mutate({
+          mutation: UPDATE_TEST,
+          variables: {
+            ...this.updatedTest,
+            id: this.$route.query.edit,
+          },
+        });
+        this.isLoading = false;
+        toast("success", "Test updated");
+        this.$router.push("/dashboard/my-tests");
+      } else {
+        toast("error", "Something is missing!");
+      }
+    },
+    validated() {
+      if (
+        !this.newTest.date ||
+        !this.newTest.test ||
+        !this.newTest.result ||
+        !this.newTest.athlete
+      ) {
+        return false;
+      } else {
+        return true;
+      }
     },
   },
   created() {

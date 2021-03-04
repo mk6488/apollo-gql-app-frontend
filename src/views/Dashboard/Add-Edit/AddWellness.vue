@@ -11,9 +11,7 @@
             <!-- LEFT-HAND SIDE -->
             <div class="col-md-4 col-sm-12">
               <AthleteButtons
-                :chosenAthlete="
-                  editMode ? newWellness.athlete.id : newWellness.athlete
-                "
+                :chosenAthlete="newWellness.athlete"
                 @selected-athlete="updateAthlete"
               />
             </div>
@@ -27,7 +25,7 @@
                 <input
                   @change="updateWeekNumber"
                   type="date"
-                  class="form-control"
+                  class="form-control w-50"
                   placeholder="Type"
                   id="date"
                   v-model="newWellness.date"
@@ -36,7 +34,7 @@
               <!-- Wellness Buttons -->
               <div class="row mb-3" v-for="item in array" :key="item.name">
                 <label
-                  class="col-sm-3 col-form-label text-primary font-weight-bold"
+                  class="col-sm-2 col-form-label text-primary font-weight-bold"
                   >{{ item.label }}</label
                 >
                 <div v-for="i in 5" :key="i">
@@ -153,19 +151,21 @@ export default {
         toast("error", "Wellness not selected");
       }
     },
-
     async addNewWellness() {
-      this.isLoading = true;
-      this.calculateAverage();
-      await this.$apollo.mutate({
-        mutation: CREATE_WELLNESS,
-        variables: this.newWellness,
-      });
-      this.isLoading = false;
-      toast("success", "Wellness created");
-      this.$router.push("/dashboard/my-wellness");
+      if (this.validated()) {
+        this.isLoading = true;
+        this.calculateAverage();
+        await this.$apollo.mutate({
+          mutation: CREATE_WELLNESS,
+          variables: this.newWellness,
+        });
+        this.isLoading = false;
+        toast("success", "Wellness created");
+        this.$router.push("/dashboard/my-wellness");
+      } else {
+        toast("error", "Something is missing!");
+      }
     },
-
     async getWellness() {
       this.isLoading = true;
       let { data } = await this.$apollo.query({
@@ -174,29 +174,47 @@ export default {
       });
       this.isLoading = false;
       this.newWellness = data.getWellnessById;
+      this.newWellness.athlete = data.getWellnessById.athlete.id;
     },
-
     async updateWellness() {
-      this.isLoading = true;
-      this.calculateAverage();
-      this.updatedWellness = this.newWellness;
-      await this.$apollo.mutate({
-        mutation: UPDATE_WELLNESS,
-        variables: {
-          ...this.updatedWellness,
-          id: this.$route.query.edit,
-        },
-      });
-      this.isLoading = false;
-      toast("success", "Wellness updated");
-      this.$router.push("/dashboard/my-wellness");
+      if (this.validated()) {
+        this.isLoading = true;
+        this.calculateAverage();
+        this.updatedWellness = this.newWellness;
+        await this.$apollo.mutate({
+          mutation: UPDATE_WELLNESS,
+          variables: {
+            ...this.updatedWellness,
+            id: this.$route.query.edit,
+          },
+        });
+        this.isLoading = false;
+        toast("success", "Wellness updated");
+        this.$router.push("/dashboard/my-wellness");
+      } else {
+        toast("error", "Something is missing!");
+      }
+    },
+    validated() {
+      if (
+        !this.newWellness.date ||
+        !this.newWellness.sleep ||
+        !this.newWellness.stress ||
+        !this.newWellness.fatigue ||
+        !this.newWellness.soreness ||
+        !this.newWellness.nutrition ||
+        !this.newWellness.athlete
+      ) {
+        return false;
+      } else {
+        return true;
+      }
     },
   },
   created() {
     if (this.editMode) {
       // Fetch the wellness from the backend using GQS
       this.getWellness();
-      console.log(this.newWellness);
     }
   },
 };
