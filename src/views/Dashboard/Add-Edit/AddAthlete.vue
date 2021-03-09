@@ -201,8 +201,7 @@ export default {
       if (
         !this.newAthlete.firstName ||
         !this.newAthlete.lastName ||
-        !this.newAthlete.squad ||
-        !this.newAthlete.cancelled
+        !this.newAthlete.squad
       ) {
         return false;
       } else {

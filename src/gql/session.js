@@ -30,6 +30,36 @@ query GET_SESSIONS_WITH_PAGINATION($page: Int!, $limit: Int!) {
 }
 `
 
+export const GET_FUTURE_SESSIONS_WITH_PAGINATION = gql `
+query GET_FUTURE_SESSIONS_WITH_PAGINATION($page: Int!, $limit: Int!) {
+	getFutureSessionsWithPagination(page: $page, limit: $limit) {
+		sessions {
+			id
+			date
+			weekNumber
+			type
+			info
+			image
+			cancelled
+			author {
+				group
+			}
+		}
+		paginator {
+			hasNextPage
+			hasPrevPage
+			next
+			prev
+			slNo
+			count
+			pageCount
+			perPage
+			currentPage
+		}
+	}
+}
+`
+
 export const GET_MY_SESSIONS_WITH_PAGINATION = gql `
 query GET_MY_SESSIONS_WITH_PAGINATION($page: Int!, $limit: Int!) {
 	getMySessionsWithPagination(page: $page, limit: $limit) {

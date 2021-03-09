@@ -16,7 +16,7 @@
                 </label>
                 <select
                   name="types"
-                  class="form-control"
+                  class="form-control w-50"
                   id="type"
                   v-model="newSession.type"
                 >
@@ -32,7 +32,7 @@
                 <input
                   @change="updateWeekNumber"
                   type="datetime-local"
-                  class="form-control"
+                  class="form-control w-50"
                   placeholder="Type"
                   id="date"
                   v-model="newSession.date"
@@ -183,8 +183,7 @@ export default {
       if (
         !this.newSession.date ||
         !this.newSession.type ||
-        !this.newSession.info ||
-        !this.newSession.cancelled
+        !this.newSession.info
       ) {
         return false;
       } else {

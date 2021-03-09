@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import SessionCard from "./Session";
+import SessionCard from "./SessionCard";
 export default {
   components: { SessionCard },
   props: {

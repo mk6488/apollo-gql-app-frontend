@@ -25,7 +25,7 @@
                 <input
                   @change="updateWeekNumber"
                   type="date"
-                  class="form-control"
+                  class="form-control w-50"
                   placeholder="Type"
                   id="date"
                   v-model="newTest.date"
@@ -34,11 +34,11 @@
               <!-- Test -->
               <div class="form-group">
                 <label for="type" class="text-primary font-weight-bold">
-                  Training Type
+                  Test
                 </label>
                 <select
                   name="types"
-                  class="form-control"
+                  class="form-control w-50"
                   id="type"
                   v-model="newTest.test"
                 >
@@ -50,11 +50,15 @@
               </div>
               <!-- Result -->
               <div class="form-group">
-                <label for="info" class="text-primary font-weight-bold">
-                  Test
+                <label for="result" class="text-primary font-weight-bold">
+                  Result
                 </label>
-                <input type="text" v-model="newTest.result" />
-                <p>{{ newTest.result }}</p>
+                <input
+                  type="text"
+                  class="form-control w-50"
+                  v-model="newTest.result"
+                  id="result"
+                />
               </div>
               <!-- Button -->
               <div class="form-group">

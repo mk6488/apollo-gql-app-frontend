@@ -27,7 +27,7 @@
                 <input
                   @change="updateWeekNumber"
                   type="date"
-                  class="form-control"
+                  class="form-control w-50"
                   placeholder="Type"
                   id="date"
                   v-model="newComment.date"
@@ -40,7 +40,7 @@
                 </label>
                 <select
                   name="types"
-                  class="form-control"
+                  class="form-control w-50"
                   id="type"
                   v-model="newComment.type"
                 >
