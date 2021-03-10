@@ -12,6 +12,15 @@
           <hr />
           <div class="row">
             <div class="col-md-6 col-sm-12">
+              <!-- Gender -->
+              <b-form-radio-group
+                v-model="newAthlete.gender"
+                :options="options"
+                class="mb-3"
+                value-field="item"
+                text-field="name"
+                disabled-field="notEnabled"
+              ></b-form-radio-group>
               <!-- First Name -->
               <div class="form-group">
                 <label for="firstName" class="text-primary font-weight-bold">
@@ -140,20 +149,27 @@ export default {
     newAthlete: {
       firstName: "",
       lastName: "",
+      gender: "male",
       squad: "",
       weight: "",
       current: true,
       doe: "0000000 X",
       dob: "",
+      avatar: "",
     },
     weight: "",
     updatedAthlete: {},
     isLoading: false,
+    options: [
+      { item: "male", name: "Male" },
+      { item: "female", name: "Female" },
+    ],
   }),
   methods: {
     async addNewAthlete() {
       if (this.validated()) {
         this.convertWeight();
+        this.addAvatar();
         this.isLoading = true;
         await this.$apollo.mutate({
           mutation: CREATE_ATHLETE,
@@ -178,6 +194,7 @@ export default {
     async updateAthlete() {
       if (this.validated()) {
         this.convertWeight();
+        this.addAvatar();
         this.updatedAthlete = this.newAthlete;
         this.isLoading = true;
         await this.$apollo.mutate({
@@ -197,11 +214,22 @@ export default {
     convertWeight() {
       this.newAthlete.weight = parseFloat(this.newAthlete.weight);
     },
+    addAvatar() {
+      switch (this.newAthlete.gender) {
+        case "male":
+          this.newAthlete.avatar = "http://localhost:4000/boy-avatar.png";
+          break;
+        case "female":
+          this.newAthlete.avatar = "http://localhost:4000/girl-avatar.png";
+          break;
+      }
+    },
     validated() {
       if (
         !this.newAthlete.firstName ||
         !this.newAthlete.lastName ||
-        !this.newAthlete.squad
+        !this.newAthlete.squad ||
+        !this.newAthlete.gender
       ) {
         return false;
       } else {

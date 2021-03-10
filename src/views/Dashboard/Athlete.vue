@@ -21,13 +21,15 @@
                     :src="athlete.avatar"
                   />
                   <p class="mb-1">Gender: {{ athlete.gender }}</p>
-                  <p class="mb-1">
+                  <p v-if="athlete.dob" class="mb-1">
                     DOB: {{ athlete.dob | birthDateFilter }} ({{
                       currentAge(athlete.dob)
                     }})
                   </p>
                   <p class="mb-1">Squad: {{ athlete.squad }}</p>
-                  <p class="mb-1">Weight: {{ athlete.weight }} Kg</p>
+                  <p v-if="athlete.weight" class="mb-1">
+                    Weight: {{ athlete.weight }} Kg
+                  </p>
                   <hr />
                   <p v-if="last2K" class="mb-1">
                     Last 2K:
